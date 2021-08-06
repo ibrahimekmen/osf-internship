@@ -8,6 +8,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.set('view engine','pug');
 
+
+
 app.get('/', (req,res)=>{
     const name = req.cookies.username;
     if(name){
@@ -22,16 +24,33 @@ app.get('/cards', (req,res)=>{
 });
 
 app.get('/hello',(req,res)=>{
-    res.render('hello');
-});
-
-app.post('/hello',(req,res)=>{
-    res.cookie('username', req.body.username);
-    if(req.body.username){
+    if(req.cookies.username){
         res.redirect('/');
     }else{
         res.render('hello');
     }
+});
+
+app.post('/hello',(req,res)=>{
+    res.cookie('username', req.body.username);  
+    res.redirect('/');
+});
+
+app.post('/goodbye',(req,res)=>{
+    res.cookie('username',"");
+    res.redirect('/hello');    
+});
+
+app.use((err,req,res)=>{
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(error);
+});
+
+app.use((err,req,res,next)=>{
+    res.locals.error=err;
+    res.status(err.status);
+    res.render('error');
 });
 
 app.listen(3000);
