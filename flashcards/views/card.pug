@@ -2,9 +2,13 @@ extends layout.pug
 
 block content
     section#content
-        h2=prompt
+        h2=text
         if hint
             p
                 i Hint: #{hint}
-
+            a(href=`./${id}?side=answer`) Answer
+        else
+            a(href=`./${id}?side=question`) Question
+        br
+        a(href="/cards") Next Card
     
