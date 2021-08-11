@@ -1,0 +1,33 @@
+extends layout.pug
+
+block content
+    body
+        .container
+            .row
+                h6 #{product.name}
+                .col-4
+                    - console.log(product.image_groups[0].images[0].link);
+                    - console.log(process.cwd());
+                    img.img-fluid.rounded.d-none.d-lg-block(src=`/static/images/${product.image_groups[0].images[0].link}` alt=`${product.image_groups[0].images[0].alt}`)
+                .col-8
+                    p #{product.long_description}
+                    .row
+                        .col
+                            a.btn.btn-info(href='' role='button') Buy Now
+                        .col
+                            .row
+                                .col
+                                    p Price: #{product.price}
+                                .col
+                                    .dropdown
+                                        button#dropdownMenuButton1.btn.btn-secondary.dropdown-toggle(type='button' data-bs-toggle='dropdown' aria-expanded='false')
+                                            | USD
+                                        ul.dropdown-menu(aria-labelledby='dropdownMenuButton1')
+                                            li
+                                                a.dropdown-item(href='#') USD
+                                            li
+                                                a.dropdown-item(href='#') EUR
+                                            li
+                                                a.dropdown-item(href='#') TL
+                                            li
+                                                a.dropdown-item(href='#') BRL

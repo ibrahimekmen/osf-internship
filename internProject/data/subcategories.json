@@ -1,0 +1,17 @@
+{
+    "data": 
+        [   
+            {
+                "id": 0,
+                "name": "Fruits",
+                "description": "Yenilcek bişi. Doğal organik. Bahçelerede ağaçalarda bitkilerde falan yetişiyor"
+            }
+           ,
+            {
+                "id": 1,
+                "name": "Planes",
+                "description": "Yasak olmayan meyve. Turuncu baya güzel. Şapur şupur iyi gidiyor."
+            }
+        ]
+    
+}
