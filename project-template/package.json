@@ -1,0 +1,17 @@
+{
+  "name": "osf-academy-backend-starter-kit",
+  "version": "1.0.0",
+  "description": "OSF Academy Starter Kit Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app/index.js"
+  },
+  "author": "Anderson Mattjie da Silva",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  }
+}
