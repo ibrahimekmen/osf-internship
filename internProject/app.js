@@ -82,10 +82,6 @@ app.use('/product', productRoutes);
 app.use('/subcategories', subcategoryRoutes);
 app.use('/register', registerRoutes);
 
-
-
-
-
 app.use((req,res,next)=>{
     const err = new Error('Not Found');
     err.status = 404;

@@ -30,6 +30,7 @@ router.get('/women', (req,res)=>{
             subcategories: data[1],
             currentRoute: "women",
             breadcrumbs: req.breadcrumbs
+            
         });
     }, (err) => {
         console.log(err);
@@ -44,7 +45,7 @@ router.get('/women/:id',(req,res)=>{
             products: data,
             currentRoute: id,
             breadcrumbs: req.breadcrumbs,
-            navbarCategories: [
+            categories: [
                 {name: "Clothing"},
                 {name: "Accessories"},
                 {name: "Jewelry"}
