@@ -18,7 +18,7 @@ block content
               img.img-fluid.rounded.d-none.d-lg-block(src=`/static/images/${category.image}` alt=`${category.page_title}`)
               p.lead.mt-4
                 | #{category.page_description}
-              button.btn.btn-outline-info(type='button' data-bs-toggle='collapse' data-bs-target=`#${category.name}` aria-expanded='false' aria-controls='collapseWidthExample')
+              button.btn.btn-outline-dark(type='button' data-bs-toggle='collapse' data-bs-target=`#${category.name}` aria-expanded='false' aria-controls='collapseWidthExample')
                 |View #{category.name} Categories
               each subcategory, jindex in subcategories
                   each sub, kindex in subcategory

@@ -16,7 +16,7 @@ block content
                 .col-8
                   p #{products[i].page_description}
                   p Price: #{products[i].price}
-                  a.btn.btn-info(href=`/products/${products[i].name}` role='button') More Info
+                  a.btn.btn-info(href=`/${gender}/${currentRoute}/product/${products[i].name}` role='button') More Info
             if (i < products.length -1)
               .col-md-6.col-sm-1
                 .row
@@ -26,6 +26,6 @@ block content
                   .col-8
                     p #{products[i+1].page_description}
                     p Price: #{products[i+1].price}
-                    a.btn.btn-info(href=`/products/${products[i+1].name}` role='button') More Info
+                    a.btn.btn-info(href=`/${gender}/${currentRoute}/product/${products[i+1].name}` role='button') More Info
           - i = i + 2
           

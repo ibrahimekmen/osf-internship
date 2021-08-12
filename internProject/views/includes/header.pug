@@ -3,7 +3,7 @@ header
         .row
             .col-10
                 h1.display-1 MyClothes
-            if currentRoute.substr(0,3) === "men"
+            if gender === "Men"
               .col-1.mt-4
                 form.mt-3(action=`/men`, method='get')
                     button.btn.btn-dark(type='submit')
@@ -12,7 +12,7 @@ header
                 form.mt-3(action=`/women`, method='get')
                     button.btn.btn-outline-dark(type='submit')
                       | Women
-            else if currentRoute.substr(0,5) === "women"
+            else if gender === "Women"
               .col-1.mt-4
                 form.mt-3(action=`/men`, method='get')
                     button.btn.btn-outline-dark(type='submit')
@@ -42,13 +42,18 @@ header
                           li.nav-item
                             a.nav-link(href=`#${navbarCategory.name}`) #{navbarCategory.name}
                       form.d-flex
-                          input.form-control.me-2(type='search' placeholder='Search' aria-label='Search')
-                          button.btn.btn-outline-success(type='submit') Search
+                        a.nav-link(href="/register") Sign Up
+                      form.d-flex
+                        a.nav-link(href="/register") Sign In
+                      form.d-flex
+                        input.form-control.me-2(type='search' placeholder='Search' aria-label='Search')
+                        button.btn.btn-outline-success(type='submit') Search
         .row.mt-2
             if breadcrumbs
                 nav(aria-label='breadcrumb')
                     ol(class="breadcrumb")
                       each crumb, index in breadcrumbs
+                        if crumb
                           if index == breadcrumbs.length - 1
                               li(class='breadcrumb-item active' aria-current='page') #{crumb.name}
                           else

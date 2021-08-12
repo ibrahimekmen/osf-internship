@@ -9,16 +9,5 @@ async function getProducts(category){
 }
 
 
-// router.get('/', (req,res)=>{
-//     res.render('subcategory', {
-//         products: products
-//     });
-// });
-
-
-
-
-
-
 
 module.exports = router;

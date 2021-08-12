@@ -2,31 +2,20 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const sentry = require('@sentry/node');
-const tracing = require('@sentry/tracing')
-
+const tracing = require('@sentry/tracing');
+const {MongoClient} = require('mongodb');
 const app = express();
 
+
 sentry.init({
-  dsn: "https://7244564833894140add9ebf97f4dc3b8@o952236.ingest.sentry.io/5901597",
-  tracesSampleRate: 1.0,
+    dsn: "https://7244564833894140add9ebf97f4dc3b8@o952236.ingest.sentry.io/5901597",
+    tracesSampleRate: 1.0,
 });
 
 const transaction = sentry.startTransaction({
-  op: "test",
-  name: "My First Test Transaction",
+    op: "test",
+    name: "My First Test Transaction",
 });
-
-
-try{
-  const sd = 0/0;
-} catch(e) {
-  sentry.captureException(e);
-} finally {
-  transaction.finish();
-}
-
-
-
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -37,27 +26,58 @@ app.set('view engine','pug');
 const mainRoutes = require('./routes');
 const productRoutes = require('./routes/products');
 const subcategoryRoutes = require('./routes/subcategories');
+const registerRoutes = require('./routes/register');
+
+// async function main() {
+//     const uri = "mongodb+srv://iboekmen:Zombibebek007@cluster0.98yaw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    
+//     const client = new MongoClient(uri);
+//     try{
+//         await client.connect();
+//         await listDatabases(client);
+//     } catch(e){
+//       console.error(e);
+//     }finally {
+//       await client.close();
+//     }
+   
+// }
+
+// async function listDatabases(client){
+//   databasesList = await client.db().admin().listDatabases();
+
+//   console.log("Databases:");
+//   databasesList.databases.forEach(db => console.log(` - ${db.name}`));
+// };
+
+// main();
 
 get_breadcrumbs = function(url) {
-  var rtn = [{name: "HOME", url: "/"}],
-      acc = "", 
-      arr = url.substring(1).split("/");
+    var rtn = [{name: "HOME", url: "/"}];
+    var acc = ""; 
+    var arr = url.substring(1).split("/");
 
-  for (i=0; i<arr.length; i++) {
-      acc = i != arr.length-1 ? acc+"/"+arr[i] : null;
-      rtn[i+1] = {name: arr[i].toUpperCase(), url: acc};
-  }
-  return rtn;
+    for (i=0; i<arr.length; i++){
+        if(arr[i] === "product"){
+            continue;
+        }
+        acc = i != arr.length-1 ? acc+"/"+arr[i] : null;
+        arr[i] = arr[i].replaceAll("%20"," ");
+        arr[i] = arr[i].replaceAll("?","");
+        rtn[i+1] = {name: arr[i].toUpperCase(), url: acc};
+    }
+    return rtn;
 };
 
 app.use(function(req, res, next) {
-  req.breadcrumbs = get_breadcrumbs(req.originalUrl);
-  next();
+    req.breadcrumbs = get_breadcrumbs(req.originalUrl);
+    next();
 });
 
 app.use(mainRoutes);
-app.use('/products', productRoutes);
+app.use('/product', productRoutes);
 app.use('/subcategories', subcategoryRoutes);
+app.use('/register', registerRoutes);
 
 
 

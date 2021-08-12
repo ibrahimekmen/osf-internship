@@ -25,11 +25,24 @@ async function getSubCategories(category){
     return data;
 }
 
+async function getProducts(category){
+    let response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/products/product_search?primary_category_id=${category}&secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
+    let data = await response.json();
+    return data;
+}
 
-let navbarCategories;
+
+// --- index
+// /:id 
+// --- subcategory
+// /:id/subcategory/:id
+// --- product
+// /:id/subcategory/:id/product/:id
+
+
 
 router.get('/', (req,res)=>{
-    res.redirect('/men');
+    res.render('home');
 });
 
 router.get('/men', (req,res)=>{
@@ -96,11 +109,32 @@ router.get('/men/:id',(req,res)=>{
     });
 });
 
-async function getProducts(category){
-    let response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/products/product_search?primary_category_id=${category}&secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
-    let data = await response.json();
-    return data;
+router.get('/Men/:category/product/:productID', (req,res)=>{
+    const { productID } = req.params;
+    getProduct(productID).then(data => {
+        res.render('product',{
+            product: data[0],
+            gender: "Men",
+            breadcrumbs: req.breadcrumbs,
+            navbarCategories: [
+                {name: "Accessories"},
+                {name: "Clothing"}
+            ]
+        });
+    }, (err) => {
+        console.log(err);
+    }); 
+});
+
+async function getProduct(name){
+    const response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/products/product_search?name=${name}&secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
+    const data = await response.json();
+    console.log("Kardeşim helikopter: ", data);
+    return await data;
 }
+
+
+
 
 
 

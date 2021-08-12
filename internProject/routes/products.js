@@ -15,7 +15,6 @@ router.get('/:id', (req,res)=>{
         res.render('product',{
             product: data[0],
             gender: "Men",
-            currentRoute: `/product/${id}`,
             breadcrumbs: req.breadcrumbs,
             navbarCategories: [
                 {name: "Accessories"},
