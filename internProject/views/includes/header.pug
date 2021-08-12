@@ -4,30 +4,30 @@ header
             .col-10
                 h1.display-1 MyClothes
             if gender === "Men"
-              .col-1.mt-4
-                form.mt-3(action=`/men`, method='get')
+              .col-2.mt-4
+                .btn-group(role='group' aria-label='Basic example')
+                  form.mt-3(action=`/men`, method='get')
                     button.btn.btn-dark(type='submit')
                       | Men
-              .col-1.mt-4
-                form.mt-3(action=`/women`, method='get')
+                  form.mt-3(action=`/Women`, method='get')
                     button.btn.btn-outline-dark(type='submit')
                       | Women
             else if gender === "Women"
-              .col-1.mt-4
-                form.mt-3(action=`/men`, method='get')
+              .col-2.mt-4
+                .btn-group(role='group' aria-label='Basic example')
+                  form.mt-3(action=`/men`, method='get')
                     button.btn.btn-outline-dark(type='submit')
                       | Men
-              .col-1.mt-4
-                form.mt-3(action=`/women`, method='get')
+                  form.mt-3(action=`/Women`, method='get')
                     button.btn.btn-dark(type='submit')
                       | Women
             else
-              .col-1.mt-4
-                form.mt-3(action=`/men`, method='get')
+              .col-2.mt-4
+                .btn-group(role='group' aria-label='Basic example')
+                  form.mt-3(action=`/men`, method='get')
                     button.btn.btn-outline-dark(type='submit')
                       | Men
-              .col-1.mt-4
-                form.mt-3(action=`/women`, method='get')
+                  form.mt-3(action=`/Women`, method='get')
                     button.btn.btn-outline-dark(type='submit')
                       | Women
         .row

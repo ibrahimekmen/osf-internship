@@ -1,52 +1,14 @@
 const express = require('express');
 const fetch = require('node-fetch');
-
+const api = require("../api.js");
 const router = express.Router();
-
-
-async function getCategories(gender){
-    let response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/categories/parent/${gender}?secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
-    let categoryData = await response.json();
-
-    let subcategories = [];
-    let temp;
-
-    for (element of categoryData) {
-        const sub = await getSubCategories(element.id);
-        subcategories.push(sub);
-      }
-    
-    return [categoryData,subcategories];
-}
-
-async function getSubCategories(category){
-    let response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/categories/parent/${category}?secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
-    let data = await response.json();
-    return data;
-}
-
-async function getProducts(category){
-    let response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/products/product_search?primary_category_id=${category}&secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
-    let data = await response.json();
-    return data;
-}
-
-
-// --- index
-// /:id 
-// --- subcategory
-// /:id/subcategory/:id
-// --- product
-// /:id/subcategory/:id/product/:id
-
-
 
 router.get('/', (req,res)=>{
     res.render('home');
 });
 
 router.get('/men', (req,res)=>{
-    getCategories("mens").then(data => {
+    api.getCategoriesByParent("mens").then(data => {
         navbarCategories = data[0];
         res.render('index',{
             gender: "Men",
@@ -62,7 +24,7 @@ router.get('/men', (req,res)=>{
 });
 
 router.get('/women', (req,res)=>{
-    getCategories("womens").then(data => {
+    api.getCategoriesByParent("womens").then(data => {
         res.render('index',{
             gender: "Women",
             categories: data[0],
@@ -78,7 +40,7 @@ router.get('/women', (req,res)=>{
 
 router.get('/women/:id',(req,res)=>{
     const { id } = req.params;
-    getProducts(id).then(data =>{
+    api.getProducts(id).then(data =>{
         res.render('subcategory',{
             gender: "Women",
             products: data,
@@ -95,7 +57,7 @@ router.get('/women/:id',(req,res)=>{
 
 router.get('/men/:id',(req,res)=>{
     const { id } = req.params;
-    getProducts(id).then(data =>{
+    api.getProducts(id).then(data =>{
         res.render('subcategory',{
             gender: "Men",
             products: data,
@@ -111,7 +73,7 @@ router.get('/men/:id',(req,res)=>{
 
 router.get('/Men/:category/product/:productID', (req,res)=>{
     const { productID } = req.params;
-    getProduct(productID).then(data => {
+    api.getProduct(productID).then(data => {
         res.render('product',{
             product: data[0],
             gender: "Men",
@@ -126,15 +88,22 @@ router.get('/Men/:category/product/:productID', (req,res)=>{
     }); 
 });
 
-async function getProduct(name){
-    const response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/products/product_search?name=${name}&secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
-    const data = await response.json();
-    console.log("Kardeşim helikopter: ", data);
-    return await data;
-}
-
-
-
+router.get('/Women/:category/product/:productID', (req,res)=>{
+    const { productID } = req.params;
+    api.getProduct(productID).then(data => {
+        res.render('product',{
+            product: data[0],
+            gender: "Women",
+            breadcrumbs: req.breadcrumbs,
+            navbarCategories: [
+                {name: "Accessories"},
+                {name: "Clothing"}
+            ]
+        });
+    }, (err) => {
+        console.log(err);
+    }); 
+});
 
 
 
