@@ -1,5 +1,5 @@
 const express = require('express');
-const fetch = require('node-fetch');
+const { getWomenNavbar } = require('../api.js');
 const api = require("../api.js");
 const router = express.Router();
 
@@ -15,8 +15,7 @@ router.get('/men', (req,res)=>{
             categories: data[0],
             subcategories: data[1],
             currentRoute: "men",
-            breadcrumbs: req.breadcrumbs,
-            navbarCategories: data[0]
+            breadcrumbs: req.breadcrumbs
         });
     }, (err) => {
         console.log(err);
@@ -30,8 +29,7 @@ router.get('/women', (req,res)=>{
             categories: data[0],
             subcategories: data[1],
             currentRoute: "women",
-            breadcrumbs: req.breadcrumbs,
-            navbarCategories: data[0]
+            breadcrumbs: req.breadcrumbs
         });
     }, (err) => {
         console.log(err);
@@ -63,7 +61,7 @@ router.get('/men/:id',(req,res)=>{
             products: data,
             currentRoute: id,
             breadcrumbs: req.breadcrumbs,
-            navbarCategories: [
+            categories: [
                 {name: "Accessories"},
                 {name: "Clothing"}
             ]
@@ -78,7 +76,7 @@ router.get('/Men/:category/product/:productID', (req,res)=>{
             product: data[0],
             gender: "Men",
             breadcrumbs: req.breadcrumbs,
-            navbarCategories: [
+            categories: [
                 {name: "Accessories"},
                 {name: "Clothing"}
             ]
@@ -95,16 +93,15 @@ router.get('/Women/:category/product/:productID', (req,res)=>{
             product: data[0],
             gender: "Women",
             breadcrumbs: req.breadcrumbs,
-            navbarCategories: [
+            categories: [
+                {name: "Clothing"},
                 {name: "Accessories"},
-                {name: "Clothing"}
+                {name: "Jewelry"}
             ]
         });
     }, (err) => {
         console.log(err);
     }); 
 });
-
-
 
 module.exports = router;

@@ -5,6 +5,7 @@ const sentry = require('@sentry/node');
 const tracing = require('@sentry/tracing');
 const {MongoClient} = require('mongodb');
 const app = express();
+const api = require("./api.js");
 
 
 sentry.init({
@@ -22,6 +23,8 @@ app.use(cookieParser());
 app.use('/static',express.static('./public'));
 
 app.set('view engine','pug');
+
+
 
 const mainRoutes = require('./routes');
 const productRoutes = require('./routes/products');
@@ -78,6 +81,8 @@ app.use(mainRoutes);
 app.use('/product', productRoutes);
 app.use('/subcategories', subcategoryRoutes);
 app.use('/register', registerRoutes);
+
+
 
 
 

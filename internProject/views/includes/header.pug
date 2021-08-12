@@ -38,7 +38,7 @@ header
                       span.navbar-toggler-icon
                     #navbarSupportedContent.collapse.navbar-collapse
                       ul.navbar-nav.me-auto.mb-2.mb-lg-0
-                        each navbarCategory in navbarCategories 
+                        each navbarCategory in categories
                           li.nav-item
                             a.nav-link(href=`#${navbarCategory.name}`) #{navbarCategory.name}
                       form.d-flex

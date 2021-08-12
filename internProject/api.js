@@ -5,15 +5,44 @@ async function getCategoriesByParent(gender){
     let categoryData = await response.json();
 
     let subcategories = [];
-    let temp;
 
     for (element of categoryData) {
         const sub = await getSubCategories(element.id);
         subcategories.push(sub);
-      }
+    }
+   
+    return [categoryData,subcategories];
+}
+
+async function getWomenNavbar(){
+    let response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/categories/parent/womens?secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
+    let categoryData = await response.json();
+
+    let subcategories = [];
+
+    for (element of categoryData) {
+        const sub = await getSubCategories(element.id);
+        subcategories.push(sub);
+    }
+
+    return [categoryData,subcategories];
+}
+
+
+async function getMenNavbar(){
+    let response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/categories/parent/mens?secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
+    let categoryData = await response.json();
+
+    let subcategories = [];
+
+    for (element of categoryData) {
+        const sub = await getSubCategories(element.id);
+        subcategories.push(sub);
+    }
     
     return [categoryData,subcategories];
 }
+
 
 async function getSubCategories(category){
     let response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/categories/parent/${category}?secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
@@ -33,10 +62,8 @@ async function getProduct(name){
     return await data;
 }
 
-
-
-
 module.exports = {
+    getWomenNavbar : getWomenNavbar,
     getCategoriesByParent : getCategoriesByParent,
     getSubCategories : getSubCategories,
     getProducts : getProducts,
