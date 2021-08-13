@@ -1,8 +1,10 @@
 header
     .container.pt-3
+        // top right men women buttons
         .row
             .col-10
-                h1.display-1 MyClothes
+                h1.display-1
+                  a(href="/" style="color:black; text-decoration:none;") MyClothes
             if gender === "Men"
               .col-2.mt-4
                 .btn-group(role='group' aria-label='Basic example')
@@ -30,24 +32,30 @@ header
                   form.mt-3(action=`/Women`, method='get')
                     button.btn.btn-outline-dark(type='submit')
                       | Women
+        // navbar
         .row
             nav.navbar.navbar-expand-lg.navbar-light.bg-light
                 .container-fluid
-                    a.navbar-brand(href='/') #{gender}
+                    a.navbar-brand(href=`/${gender}`) #{gender}
                     button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
                       span.navbar-toggler-icon
                     #navbarSupportedContent.collapse.navbar-collapse
                       ul.navbar-nav.me-auto.mb-2.mb-lg-0
-                        each navbarCategory in categories
-                          li.nav-item
-                            a.nav-link(href=`#${navbarCategory.name}`) #{navbarCategory.name}
-                      form.d-flex
-                        a.nav-link(href="/register") Sign Up
-                      form.d-flex
-                        a.nav-link(href="/register") Sign In
-                      form.d-flex
+                        each navbarCategory,index in categories
+                          li.nav-item.dropdown
+                            a#navbarDropdown.nav-link.dropdown-toggle(role='button' data-bs-toggle='dropdown' aria-expanded='false') #{navbarCategory.name}
+                            ul.dropdown-menu(aria-labelledby='navbarDropdown')
+                              each subcategory in subcategories[index]
+                                li
+                                  a.dropdown-item(href=`/${gender}/${subcategory.id}`)=subcategory.name
+                      form.d-flex(action="/register", method="get")
+                        button.nav-link(type='submit' style="color:black; text-decoration:none; border:none;") Sign Up
+                      form.d-flex(action="/register", method="get")
+                        button.nav-link(type='submit' style="color:black; text-decoration:none; border:none;") Sign In
+                      form.d-flex 
                         input.form-control.me-2(type='search' placeholder='Search' aria-label='Search')
                         button.btn.btn-outline-success(type='submit') Search
+        // breadcrumbs
         .row.mt-2
             if breadcrumbs
                 nav(aria-label='breadcrumb')

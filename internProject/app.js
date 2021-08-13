@@ -3,10 +3,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const sentry = require('@sentry/node');
 const tracing = require('@sentry/tracing');
-const {MongoClient} = require('mongodb');
 const app = express();
-const api = require("./api.js");
-
 
 sentry.init({
     dsn: "https://7244564833894140add9ebf97f4dc3b8@o952236.ingest.sentry.io/5901597",
@@ -24,36 +21,11 @@ app.use('/static',express.static('./public'));
 
 app.set('view engine','pug');
 
-
-
 const mainRoutes = require('./routes');
 const productRoutes = require('./routes/products');
 const subcategoryRoutes = require('./routes/subcategories');
 const registerRoutes = require('./routes/register');
 
-// async function main() {
-//     const uri = "mongodb+srv://iboekmen:Zombibebek007@cluster0.98yaw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-    
-//     const client = new MongoClient(uri);
-//     try{
-//         await client.connect();
-//         await listDatabases(client);
-//     } catch(e){
-//       console.error(e);
-//     }finally {
-//       await client.close();
-//     }
-   
-// }
-
-// async function listDatabases(client){
-//   databasesList = await client.db().admin().listDatabases();
-
-//   console.log("Databases:");
-//   databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-// };
-
-// main();
 
 get_breadcrumbs = function(url) {
     var rtn = [{name: "HOME", url: "/"}];

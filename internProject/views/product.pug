@@ -6,19 +6,88 @@ block content
             .row
                 h6 #{product.name}
                 .col-4
-                    img.img-fluid.rounded.d-none.d-lg-block(src=`/static/images/${product.image_groups[0].images[0].link}` alt=`${product.image_groups[0].images[0].alt}`)
+                    #carouselExampleIndicators.carousel.slide(data-bs-ride='carousel')
+                        .carousel-indicators
+                            each image, index in product.image_groups[0].images
+                                if index === 0
+                                    button.active(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='0' aria-current='true' aria-label='Slide 1')
+                                else
+                                    button(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to=`${index}` aria-label=`Slide ${index+1}`)
+                        .carousel-inner
+                            each image, index in product.image_groups[0].images
+                                if index === 0
+                                    .carousel-item.active
+                                        img.d-block.w-100.carousel-img(id=index src=`/static/images/${image.link}` alt=`${image.alt}`)
+                                else
+                                    .carousel-item
+                                        img.d-block.w-100.carousel-img(id=index src=`/static/images/${image.link}` alt=`${image.alt}`)
+                        button.carousel-control-prev(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev')
+                            span.carousel-control-prev-icon(aria-hidden='true')
+                            span.visually-hidden Previous
+                        button.carousel-control-next(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='next')
+                            span.carousel-control-next-icon(aria-hidden='true')
+                            span.visually-hidden Next
                 .col-8
-                    p #{product.long_description}
-                    .row
-                        .col
+                    p.fs-4 #{product.long_description}
+                    each variation,i in product.variation_attributes
+                        if variation.values.length === 1
+                            - continue;
+                        .row
+                            h6.display-6.mt-4 #{variation.name}
+                        .row
+                            .btn-group
+                                each value,index in variation.values
+                                    if index === 4
+                                        .row
+                                    if index === 0
+                                        - continue;
+                                    else if index === 1
+                                        if value.orderable
+                                            input.btn-check(id=`option-${index+1}-${i}` type='radio' name='options' autocomplete='off' checked='')
+                                            label.btn.btn-secondary(for=`option-${index+1}-${i}`) #{value.name}
+                                        else
+                                            input.btn-check(id=`option-${index+1}-${i}` type='radio' name='options' autocomplete='off' checked='' disabled='')
+                                            label.btn.btn-secondary(for=`option-${index+1}-${i}`) #{value.name}
+                                    else
+                                        if value.orderable
+                                            input.btn-check(id=`option-${index+1}-${i}` type='radio' name='options' autocomplete='off')
+                                            label.btn.btn-secondary(for=`option-${index+1}-${i}`) #{value.name}
+                                        else
+                                            input.btn-check(id=`option-${index+1}-${i}` type='radio' name='options' autocomplete='off')
+                                            label.btn.btn-secondary(for=`option-${index+1}-${i}`) #{value.name}
+                    .row.mt-5
+                        .col-8
                             a.btn.btn-dark(href='' role='button') Buy Now
-                        .col
+                        .col-4
                             .row
                                 .col
-                                    p Price: #{product.price}
+                                    p.mt-1 Price: #{product.price}
                                 .col
                                     select.form-select(aria-label='Default select example')
                                         option(value='1') USD
                                         option(value='2') EUR
                                         option(value='3') TL
                                         option(value='4') BRL
+        script.
+            const data = !{JSON.stringify(product.image_groups)};
+            window.addEventListener('load', function() {
+                if (document.querySelector('.btn-check')) { 
+                    document.querySelectorAll('.btn-check').forEach(function(el) {
+                        let dataFromHtml = el.id.split('-');
+                        let variationType = dataFromHtml[2];
+                        let imageId = dataFromHtml[1];
+                        if (variationType == 0){
+                            el.addEventListener('click', function (e) {
+                                document.querySelectorAll(".carousel-img").forEach(carouselImage =>{
+                                    carouselImage.src = "/static/images/" + data[imageId-1].images[carouselImage.id].link;
+                                    carouselImage.alt = data[imageId-1].images[carouselImage.id].alt;
+                                })
+                            });  
+                        }
+                    });
+                }
+            })
+
+            
+        
+    

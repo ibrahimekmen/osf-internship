@@ -1,3 +1,4 @@
+const { getMainCarrier } = require('@sentry/hub');
 const fetch = require('node-fetch');
 
 async function getCategoriesByParent(gender){
@@ -62,7 +63,12 @@ async function getProduct(name){
     return await data;
 }
 
+async function createUser(newUser){
+    fetch(`https://osf-digital-backend-academy.herokuapp.com/api/auth/signup?name=${newUser.name}&email=${newUser.email}&password=${newUser.password}&secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`);
+}
+
 module.exports = {
+    getMenNavbar : getMenNavbar,
     getWomenNavbar : getWomenNavbar,
     getCategoriesByParent : getCategoriesByParent,
     getSubCategories : getSubCategories,

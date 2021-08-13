@@ -1,5 +1,4 @@
 const express = require('express');
-const { getWomenNavbar } = require('../api.js');
 const api = require("../api.js");
 const router = express.Router();
 
@@ -39,70 +38,67 @@ router.get('/women', (req,res)=>{
 
 router.get('/women/:id',(req,res)=>{
     const { id } = req.params;
-    api.getProducts(id).then(data =>{
+    Promise.all([api.getProducts(id),api.getWomenNavbar()]).then(data =>{
         res.render('subcategory',{
             gender: "Women",
-            products: data,
+            products: data[0],
             currentRoute: id,
             breadcrumbs: req.breadcrumbs,
-            categories: [
-                {name: "Clothing"},
-                {name: "Accessories"},
-                {name: "Jewelry"}
-            ]
+            categories: data[1][0],
+            subcategories: data[1][1]
         });
+    }).catch(err=>{
+        console.log(err);
     });
 });
 
 router.get('/men/:id',(req,res)=>{
     const { id } = req.params;
-    api.getProducts(id).then(data =>{
+    Promise.all([api.getProducts(id),api.getMenNavbar()]).then(data =>{
         res.render('subcategory',{
             gender: "Men",
-            products: data,
+            products: data[0],
             currentRoute: id,
             breadcrumbs: req.breadcrumbs,
-            categories: [
-                {name: "Accessories"},
-                {name: "Clothing"}
-            ]
+            categories: data[1][0],
+            subcategories: data[1][1]
         });
+    }).catch(err=>{
+        console.log(err);
     });
+    
 });
 
 router.get('/Men/:category/product/:productID', (req,res)=>{
     const { productID } = req.params;
-    api.getProduct(productID).then(data => {
+    Promise.all([api.getProduct(productID),api.getMenNavbar()]).then(data =>{
         res.render('product',{
-            product: data[0],
             gender: "Men",
+            product: data[0][0],    
             breadcrumbs: req.breadcrumbs,
-            categories: [
-                {name: "Accessories"},
-                {name: "Clothing"}
-            ]
+            categories: data[1][0],
+            subcategories: data[1][1]
         });
-    }, (err) => {
+    }).catch(err=>{
         console.log(err);
-    }); 
+    });
+    
+    
 });
 
 router.get('/Women/:category/product/:productID', (req,res)=>{
     const { productID } = req.params;
-    api.getProduct(productID).then(data => {
+    Promise.all([api.getProduct(productID),api.getWomenNavbar()]).then(data =>{
         res.render('product',{
-            product: data[0],
             gender: "Women",
+            product: data[0][0],    
             breadcrumbs: req.breadcrumbs,
-            categories: [
-                {name: "Clothing"},
-                {name: "Accessories"},
-                {name: "Jewelry"}
-            ]
+            categories: data[1][0],
+            subcategories: data[1][1]
         });
-    }, (err) => {
+    }).catch(err=>{
         console.log(err);
-    }); 
+    });
 });
 
 module.exports = router;

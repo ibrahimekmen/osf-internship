@@ -14,7 +14,7 @@ body
     .main.container
         .row
             .col-md-6.col-md-offset-3
-            h1.display-4.m-b-2 Sign Up
+            h1.display-4.m-b-2.mt-4 Sign Up
 
             // register form
             form(method='POST' action='/register')
@@ -30,5 +30,5 @@ body
                 div.form-group
                 label.mt-3(for='pw2') Confirm Password:
                 input#pw2.form-control(type='password' name='confirmPassword')
-                button.btn.btn-primary.mt-3(type='submit') Sign up
+                button.btn.btn-dark.mt-3(type='submit') Sign up
     include includes/footer.pug
