@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const sentry = require('@sentry/node');
 const tracing = require('@sentry/tracing');
+const session = require('express-session');
 const app = express();
 
 sentry.init({
@@ -15,6 +16,17 @@ const transaction = sentry.startTransaction({
     name: "My First Test Transaction",
 });
 
+app.use(session({
+    secret: "yo albuquerque",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use((req,res,next) =>{
+    res.locals.currentUser = req.session.userId;
+    next();
+});
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use('/static',express.static('./public'));
@@ -25,6 +37,10 @@ const mainRoutes = require('./routes');
 const productRoutes = require('./routes/products');
 const subcategoryRoutes = require('./routes/subcategories');
 const registerRoutes = require('./routes/register');
+const loginRoutes = require('./routes/login')
+const logoutRoutes = require('./routes/logout');
+const profileRoutes = require('./routes/profile');
+const shoppingCartRoutes = require('./routes/shoppingCart');
 
 
 get_breadcrumbs = function(url) {
@@ -53,6 +69,10 @@ app.use(mainRoutes);
 app.use('/product', productRoutes);
 app.use('/subcategories', subcategoryRoutes);
 app.use('/register', registerRoutes);
+app.use('/login',loginRoutes);
+app.use('/logout',logoutRoutes);
+app.use('/profile', profileRoutes);
+app.use('/shoppingcart', shoppingCartRoutes);
 
 app.use((req,res,next)=>{
     const err = new Error('Not Found');

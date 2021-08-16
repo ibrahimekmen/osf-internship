@@ -1,0 +1,29 @@
+extends layout.pug
+
+block content
+    body
+        .container.border.rounded
+            .row.text-center
+                h1 Profile
+            .row
+                p Name:  #{user.name}
+                br
+                p Email: #{user.email}
+                br
+                - let registerationDate = user.createdAt.split(".")[0];
+                - registerationDate = registerationDate.replace("T", " ");
+                p Registeration Date: #{registerationDate}
+            
+                .row.justify-content-center
+                    .col-1
+                        button.btn.position-relative(type='button')
+                            img(src="/static/images/profile/shopping-cart.png" alt="Shopping cart icon")
+                            span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger
+                                | 99+
+                                span.visually-hidden items in the shopping cart
+                    .col-1
+                        button.btn.position-relative(type='button')
+                            img(src="/static/images/profile/list.png" alt="Wishlist icon")
+                            span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger
+                                | 99+
+                                span.visually-hidden items in the wishlist

@@ -3,12 +3,21 @@ const api = require("../api.js");
 const router = express.Router();
 
 router.get('/', (req,res)=>{
-    res.render('home');
+    api.getCategoriesByParent("womens").then(data => {
+        res.render('home',{
+            gender: "Women",
+            categories: data[0],
+            subcategories: data[1],
+            currentRoute: "women",
+            breadcrumbs: req.breadcrumbs
+        });
+    }, (err) => {
+        console.log(err);
+    });
 });
 
 router.get('/men', (req,res)=>{
     api.getCategoriesByParent("mens").then(data => {
-        navbarCategories = data[0];
         res.render('index',{
             gender: "Men",
             categories: data[0],
@@ -97,7 +106,7 @@ router.get('/Women/:category/product/:productID', (req,res)=>{
             subcategories: data[1][1]
         });
     }).catch(err=>{
-        console.log(err);
+        res.render("error",err.error);
     });
 });
 

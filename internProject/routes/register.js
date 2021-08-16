@@ -1,10 +1,7 @@
 const express = require('express');
-const User = require('../models/user');
+const api = require('../api');
 const router = express.Router();
 
-router.get('/', (req,res)=>{
-    res.render('register');
-});
 
 router.post('/', (req,res,next)=>{
     if(req.body.name && req.body.email
@@ -18,15 +15,16 @@ router.post('/', (req,res,next)=>{
         const userData = {
             name : req.body.name,
             email : req.body.email,
-            password : req.body.password 
+            password : req.body.password,
+            secretKey: "$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2"
         };
 
-        User.create(userData , (error,user) =>{
-            if(error){
-                return next(error);
-            }else{
-                return res.redirect("/profile");
-            }
+        api.createNewUser(userData).then(data =>{
+            req.session.userId = data.user._id;
+            req.params.userData = data.user;
+            return res.redirect('/profile');
+        }).catch(error => {
+            console.error(error);
         });
 
     }else {

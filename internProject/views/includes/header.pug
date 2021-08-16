@@ -48,13 +48,18 @@ header
                               each subcategory in subcategories[index]
                                 li
                                   a.dropdown-item(href=`/${gender}/${subcategory.id}`)=subcategory.name
-                      form.d-flex(action="/register", method="get")
-                        button.nav-link(type='submit' style="color:black; text-decoration:none; border:none;") Sign Up
-                      form.d-flex(action="/register", method="get")
-                        button.nav-link(type='submit' style="color:black; text-decoration:none; border:none;") Sign In
-                      form.d-flex 
+                      form.d-flex.mb-2.mb-lg-0
                         input.form-control.me-2(type='search' placeholder='Search' aria-label='Search')
                         button.btn.btn-outline-success(type='submit') Search
+                      // right side sign up and sign up
+                      if !currentUser
+                        include authorization.pug
+                      else
+                        div.mx-3
+                          a.btn-btn-dark(href="/logout" style="color:black; text-decoration:none;") Logout
+                          a(href="/profile") 
+                            img.avatar.img-circle.hidden-xs-down(src="/static/images/profile/user.png")
+                      
         // breadcrumbs
         .row.mt-2
             if breadcrumbs

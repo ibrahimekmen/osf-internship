@@ -5,6 +5,8 @@ block content
         .container
             .row
                 h6 #{product.name}
+
+                // carousel images
                 .col-4
                     #carouselExampleIndicators.carousel.slide(data-bs-ride='carousel')
                         .carousel-indicators
@@ -27,6 +29,8 @@ block content
                         button.carousel-control-next(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='next')
                             span.carousel-control-next-icon(aria-hidden='true')
                             span.visually-hidden Next
+                
+                // variations part
                 .col-8
                     p.fs-4 #{product.long_description}
                     each variation,i in product.variation_attributes
