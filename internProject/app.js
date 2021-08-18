@@ -40,7 +40,7 @@ const registerRoutes = require('./routes/register');
 const loginRoutes = require('./routes/login')
 const logoutRoutes = require('./routes/logout');
 const profileRoutes = require('./routes/profile');
-const shoppingCartRoutes = require('./routes/shoppingCart');
+const cartRoutes = require('./routes/shoppingCart');
 
 
 get_breadcrumbs = function(url) {
@@ -55,6 +55,7 @@ get_breadcrumbs = function(url) {
         acc = i != arr.length-1 ? acc+"/"+arr[i] : null;
         arr[i] = arr[i].replaceAll("%20"," ");
         arr[i] = arr[i].replaceAll("?","");
+        arr[i] = arr[i].replaceAll("-"," ");
         rtn[i+1] = {name: arr[i].toUpperCase(), url: acc};
     }
     return rtn;
@@ -72,7 +73,7 @@ app.use('/register', registerRoutes);
 app.use('/login',loginRoutes);
 app.use('/logout',logoutRoutes);
 app.use('/profile', profileRoutes);
-app.use('/shoppingcart', shoppingCartRoutes);
+app.use('/cart', cartRoutes);
 
 app.use((req,res,next)=>{
     const err = new Error('Not Found');

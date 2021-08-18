@@ -22,7 +22,7 @@ router.post('/', (req,res,next)=>{
             }else
                 req.session.userId = data.user._id;
                 req.session.user = data;
-                res.redirect('/profile', 200, req);
+                res.redirect('back');
         }).catch(error => {
             console.log(error);
         });

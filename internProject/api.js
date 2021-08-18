@@ -3,6 +3,62 @@ const fetch = require('node-fetch');
 
 
 
+async function getWishlist(data){
+    const response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/wishlist?secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`,{
+        method: 'GET',
+        headers: {
+            'Content-Type' : 'application/json',
+            'Authorization' : `Bearer ${data}`
+        },
+        authentication : {
+            'token' : data,
+            'type' : 'bearer' 
+        }
+    });
+
+    return response.json();
+}
+
+async function getCart(data){
+    const response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/cart?secretKey=$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2`,{
+        method: 'GET',
+        headers: {
+            'Content-Type' : 'application/json',
+            'Authorization' : `Bearer ${data}`
+        },
+        authentication : {
+            'token' : data,
+            'type' : 'bearer' 
+        }
+    });
+
+    return response.json();
+}
+
+async function addToCart(data){
+    console.log(data);
+    const response = await fetch("https://osf-digital-backend-academy.herokuapp.com/api/cart/addItem",{
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json',
+            'Authorization' : `Bearer ${data.token}`
+        },
+        authentication : {
+            'token' : data.token,
+            'type' : 'bearer' 
+        },
+        body : {
+            secretKey : '$2a$08$3ZvBsLPjB7q1Fnw/MmMOKejgVskQuF/4wyqFcqhiZEpQ1SywIVHi2',
+            productId : data.quantity,
+            variationId : data.variationId,
+            quantity : data.productId, 
+        }
+    }).catch(error =>{
+        console.log(error);
+    });
+    console.dir(response.json());
+}
+
 async function createNewUser(userData){
     const response = await fetch(`https://osf-digital-backend-academy.herokuapp.com/api/auth/signup`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -101,7 +157,10 @@ async function getProduct(name){
 
 
 module.exports = {
-    logIn: logIn,
+    addToCart : addToCart,
+    getWishlist : getWishlist,
+    getCart : getCart,
+    logIn : logIn,
     createNewUser : createNewUser,
     getMenNavbar : getMenNavbar,
     getWomenNavbar : getWomenNavbar,

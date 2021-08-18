@@ -16,14 +16,26 @@ block content
             
                 .row.justify-content-center
                     .col-1
-                        button.btn.position-relative(type='button')
-                            img(src="/static/images/profile/shopping-cart.png" alt="Shopping cart icon")
-                            span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger
-                                | 99+
-                                span.visually-hidden items in the shopping cart
+                        if(cartError)
+                            button.btn.position-relative(type='submit' form="form1" disabled="")
+                                img(src="/static/images/profile/shopping-cart.png" alt="Shopping cart icon")
+                                span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger 0
+                                    span.visually-hidden items in the shopping cart
+                        else
+                            form#form1(action='/shoppingcart' method='get')
+                                button.btn.position-relative(type='submit' form="form1")
+                                    img(src="/static/images/profile/shopping-cart.png" alt="Shopping cart icon")
+                                    span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger #{yo}
+                                        span.visually-hidden items in the shopping cart
                     .col-1
-                        button.btn.position-relative(type='button')
-                            img(src="/static/images/profile/list.png" alt="Wishlist icon")
-                            span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger
-                                | 99+
-                                span.visually-hidden items in the wishlist
+                        if(wishlistError)
+                            button.btn.position-relative(type='submit' form="form1" disabled="")
+                                img(src="/static/images/profile/list.png" alt="Wishlist icon")
+                                span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger 0
+                                    span.visually-hidden items in the wishlist
+                        else
+                            form#form2(action='/wishlist' method='get')
+                                button.btn.position-relative(type='submit' form="form2")
+                                    img(src="/static/images/profile/list.png" alt="Wishlist icon")
+                                    span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger #{yo}
+                                        span.visually-hidden items in the wishlist

@@ -8,6 +8,9 @@
   },
   "keywords": [],
   "author": "",
+  "engines": {
+    "node": "15.10.0"
+  },
   "license": "ISC",
   "dependencies": {
     "@sentry/node": "^6.11.0",
