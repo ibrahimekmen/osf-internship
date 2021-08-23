@@ -4,6 +4,8 @@ const cookieParser = require("cookie-parser");
 const sentry = require('@sentry/node');
 const tracing = require('@sentry/tracing');
 const session = require('express-session');
+const navbarUtil = require('./utils/navbarHelper.js');
+const breadcrumbsUtil = require('./utils/breadCrumbs.js');
 const app = express();
 
 sentry.init({
@@ -34,46 +36,33 @@ app.use('/static',express.static('./public'));
 app.set('view engine','pug');
 
 const mainRoutes = require('./routes');
-const productRoutes = require('./routes/products');
-const subcategoryRoutes = require('./routes/subcategories');
 const registerRoutes = require('./routes/register');
 const loginRoutes = require('./routes/login')
 const logoutRoutes = require('./routes/logout');
 const profileRoutes = require('./routes/profile');
 const cartRoutes = require('./routes/shoppingCart');
-
-
-get_breadcrumbs = function(url) {
-    var rtn = [{name: "HOME", url: "/"}];
-    var acc = ""; 
-    var arr = url.substring(1).split("/");
-
-    for (i=0; i<arr.length; i++){
-        if(arr[i] === "product"){
-            continue;
-        }
-        acc = i != arr.length-1 ? acc+"/"+arr[i] : null;
-        arr[i] = arr[i].replaceAll("%20"," ");
-        arr[i] = arr[i].replaceAll("?","");
-        arr[i] = arr[i].replaceAll("-"," ");
-        rtn[i+1] = {name: arr[i].toUpperCase(), url: acc};
-    }
-    return rtn;
-};
+const menRoutes = require('./routes/men');
+const womenRoutes = require('./routes/women');
 
 app.use(function(req, res, next) {
-    req.breadcrumbs = get_breadcrumbs(req.originalUrl);
+    req.breadcrumbs = breadcrumbsUtil.get_breadcrumbs(req.originalUrl);
+    next();
+});
+
+app.use( async (req,res,next) => {
+    req.womenNavbar = await navbarUtil.getWomenNavbar();
+    req.menNavbar = await navbarUtil.getMenNavbar();
     next();
 });
 
 app.use(mainRoutes);
-app.use('/product', productRoutes);
-app.use('/subcategories', subcategoryRoutes);
 app.use('/register', registerRoutes);
 app.use('/login',loginRoutes);
 app.use('/logout',logoutRoutes);
 app.use('/profile', profileRoutes);
 app.use('/cart', cartRoutes);
+app.use('/men', menRoutes);
+app.use('/women', womenRoutes);
 
 app.use((req,res,next)=>{
     const err = new Error('Not Found');
@@ -85,7 +74,7 @@ app.use((err, req, res, next) => {
     res.locals.error = err;
     const status = err.status || 500;
     res.status(status);
-    res.render('error');
-  });
+    res.render('error',err);
+});
 
 app.listen(3000);

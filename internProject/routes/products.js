@@ -1,23 +1,9 @@
 const express = require('express');
-const fetch = require('node-fetch');
-const router = express.Router();
-const api = require("../api.js");
+const router = express.Router({mergeParams: true});
+const productPageController = require('../controllers/productPageController');
 
-router.get('/:id', (req,res)=>{
-    const { id } = req.params;
-    api.getProduct(id).then(data => {
-        res.render('product',{
-            product: data[0],
-            gender: "Men",
-            breadcrumbs: req.breadcrumbs,
-            navbarCategories: [
-                {name: "Accessories"},
-                {name: "Clothing"}
-            ]
-        });
-    }, (err) => {
-        console.log(err);
-    }); 
+router.get('/:productName',(req,res) => {
+    productPageController.render(req,res);
 });
 
 module.exports = router;
