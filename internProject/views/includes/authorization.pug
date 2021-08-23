@@ -5,7 +5,7 @@ button.btn.nav-link(type='button' data-bs-toggle='modal' data-bs-target='#signUp
     .modal-dialog
         .modal-content
             .modal-header
-                h5#staticBackdropLabel.modal-title Modal title
+                h5#staticBackdropLabel.modal-title Sign Up
                 button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
             .modal-body
                 form(method='POST' action='/register')
@@ -13,14 +13,14 @@ button.btn.nav-link(type='button' data-bs-toggle='modal' data-bs-target='#signUp
                     label.mt-3(for='name') Name:
                     input#name.form-control(type='text', placeholder='first and last' name='name')
                     div.form-group
-                    label.mt-3(for='email') Email:
-                    input#email.form-control(type='email', placeholder='name@email.com' name='email')
+                    label.mt-3(for='email-signup') Email:
+                    input#email-signup.form-control(type='email', placeholder='name@email.com' name='email')
                     div.form-group
-                    label.mt-3(for='pw') Password:
-                    input#pw.form-control(type='password' name='password')
+                    label.mt-3(for='pw-signup') Password:
+                    input#pw-signup.form-control(type='password' name='password')
                     div.form-group
-                    label.mt-3(for='pw2') Confirm Password:
-                    input#pw2.form-control(type='password' name='confirmPassword')
+                    label.mt-3(for='pw2-signup') Confirm Password:
+                    input#pw2-signup.form-control(type='password' name='confirmPassword')
                     button.btn.btn-dark.mt-3(type='submit') Sign up
                      
                      
@@ -31,7 +31,7 @@ button.btn.nav-link(type='button' data-bs-toggle='modal' data-bs-target='#signIn
     .modal-dialog
         .modal-content
             .modal-header
-                h5#staticBackdropLabel.modal-title Modal title
+                h5#staticBackdropLabel.modal-title Sign In
                 button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
             .modal-body
                 form(method='POST' action='/login')

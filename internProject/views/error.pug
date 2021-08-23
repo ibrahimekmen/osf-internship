@@ -12,7 +12,12 @@ body
     .container.pt-3
         .row
             h1.display-1 MyClothes
-            h1= error.message
-            h2= error.status
-            pre= error.stack
+            if err
+                h1= err.message
+                h2= err.status
+                pre= err.stack
+            if error
+                h1= error.message
+                h2= error.status
+                pre= error.stack
             include includes/footer.pug
